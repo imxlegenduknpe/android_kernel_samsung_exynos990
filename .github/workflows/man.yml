@@ -24,10 +24,9 @@ jobs:
       - name: Run Kernel Build
         run: |
           ./build.sh --model r8s --ksu y --recovery n --ccache n
-
-- name: Upload kernel zip artifact
-  uses: actions/upload-artifact@v4
-  with:
-    name: r8s-kernel-build
-    path: build/out/r8s/*.zip
-    compression-level: 0   # opcional: evita recomprimir el zip
+      - name: Upload kernel zip artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: r8s-kernel-build
+          path: build/out/r8s/*.zip
+          compression-level: 0   # opcional: evita recomprimir el zip
