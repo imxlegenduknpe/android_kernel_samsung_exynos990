@@ -1,4 +1,4 @@
-name: Kernel Build r8s KSU
+name: Kernel Build r8s KSUm
 
 on:
   workflow_dispatch:
