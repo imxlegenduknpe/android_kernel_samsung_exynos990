@@ -1,0 +1,37 @@
+name: Kernel Build r8s KSU
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout source with submodules
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive   # 🔥 importante para clonar KernelSU y demás
+          fetch-depth: 0
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            bc bison build-essential cpio curl flex gcc gcc-aarch64-linux-gnu \
+            git libncurses5-dev libssl-dev lz4 lzop python3 unzip zip wget \
+            libtinfo5 python-is-python3
+
+      - name: Make build.sh executable
+        run: chmod +x build.sh
+
+      - name: Run Kernel Build
+        run: |
+          ./build.sh --model r8s --ksu y --recovery n --ccache n
+
+      - name: Upload kernel zip artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: r8s-kernel-build
+          path: build/out/r8s/*.zip
+          compression-level: 0
